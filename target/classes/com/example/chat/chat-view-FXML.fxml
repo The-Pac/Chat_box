@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.62" prefHeight="230.0" prefWidth="400.0" styleClass="background" stylesheets="@../../../main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chat.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="400.0" styleClass="background" stylesheets="@../../../main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chat.MainController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="100.0" layoutY="107.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -41,12 +41,12 @@
                   </Button>
                </children>
             </HBox>
-            <ScrollPane fx:id="tchat_ScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="170.0" prefWidth="390.0" style="-fx-background-color: #160A40;" vbarPolicy="ALWAYS" vvalue="1.0">
+            <ScrollPane fx:id="tchat_ScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="170.0" prefWidth="390.0" vbarPolicy="NEVER" vvalue="1.0">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
                <content>
-                  <VBox fx:id="tchat_msg_Vbox" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="167.0" prefWidth="378.0" spacing="5.0" styleClass="tchat_scrollbar" />
+                  <VBox fx:id="tchat_msg_Vbox" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="167.0" prefWidth="378.0" spacing="5.0" styleClass="tchat_Vbox" />
                </content>
             </ScrollPane>
          </children>

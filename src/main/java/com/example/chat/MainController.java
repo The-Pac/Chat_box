@@ -3,8 +3,6 @@ package com.example.chat;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,14 +28,12 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
     public String oAuth = "oauth:oig27sm2xk21wk9yg7nv84jk428ugl",
-            client_id = "oauth:rkl7di51hjibc37otjo8wbhq6otxs2",
             chaine = "lestream", nickname = "pacreported";
     public int port = 6667;
     public Socket socket;
     public PrintWriter output;
     public BufferedReader bufferedReader;
     public boolean on_start = false, on_join = false;
-    public ObservableList<VBox> tchat_msg_tab = FXCollections.observableArrayList();
 
     @FXML
     public HBox statut_Hbox;
@@ -49,17 +45,19 @@ public class MainController implements Initializable {
     public void connect() {
         write("PASS " + oAuth);
         write("NICK " + nickname.toLowerCase());
-
+        System.out.println("Connexion...");
     }
 
     public void join() {
         write("JOIN #" + chaine);
         on_join = true;
+        System.out.println("Join...");
     }
 
     public void quit() {
         write("PART #" + chaine);
         on_join = false;
+        System.out.println("Quit...");
     }
 
     public void write(String msg) {
@@ -95,7 +93,6 @@ public class MainController implements Initializable {
                             join();
                         }
 
-                        System.out.println(line);
                         if (on_start && !line.contains("JOIN")
                                 && !line.contains("PING") && !line.contains("NICK")
                                 && !line.contains("PASS")

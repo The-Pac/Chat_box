@@ -1,6 +1,5 @@
 .background {
-    -fx-background-color: #041026;
-    -fx-background-radius: 25;
+    -fx-background-color: transparent;
 }
 
 .msg_vbox {
@@ -21,35 +20,44 @@
     -fx-font-weight: bold;
 }
 
-.tchat_scrollbar {
-    -fx-background-color: #160A40;
-    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.6), 10, 0, 0, 0);
+.scroll-pane {
+    -fx-background-color: transparent;
+}
 
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.tchat_Vbox {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
 }
 
 
 .scroll-bar .increment-arrow,
 .scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
     -fx-shape: " ";
     -fx-padding: 0.15em 0.0;
 }
 
 .scroll-bar:vertical .increment-arrow,
 .scroll-bar:vertical .decrement-arrow {
+    -fx-background-color: transparent;
     -fx-shape: " ";
     -fx-padding: 0.0 0.15em;
 }
 
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
-    -fx-background-color: derive(black, 90.0%);
+    -fx-background-color: transparent;
     -fx-background-insets: 2.0, 0.0, 0.0;
     -fx-background-radius: 2.0em;
 }
 
 .scroll-bar:horizontal .thumb:hover,
 .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: derive(#4D4C4F, 10.0%);
+    -fx-background-color: transparent;
     -fx-background-insets: 2.0, 0.0, 0.0;
     -fx-background-radius: 2.0em;
 }
