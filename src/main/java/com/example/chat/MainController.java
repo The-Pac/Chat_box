@@ -3,7 +3,6 @@ package com.example.chat;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,12 +31,12 @@ public class MainController implements Initializable {
 
     public String oAuth = "oauth:oig27sm2xk21wk9yg7nv84jk428ugl",
             client_id = "oauth:rkl7di51hjibc37otjo8wbhq6otxs2",
-            chaine = "sha77etv";
+            chaine = "lestream", nickname = "pacreported";
     public int port = 6667;
     public Socket socket;
     public PrintWriter output;
     public BufferedReader bufferedReader;
-    public boolean on_start = false;
+    public boolean on_start = false, on_join = false;
     public ObservableList<VBox> tchat_msg_tab = FXCollections.observableArrayList();
 
     @FXML
@@ -49,12 +48,18 @@ public class MainController implements Initializable {
 
     public void connect() {
         write("PASS " + oAuth);
-        write("NICK " + chaine.toLowerCase());
+        write("NICK " + nickname.toLowerCase());
 
     }
 
     public void join() {
         write("JOIN #" + chaine);
+        on_join = true;
+    }
+
+    public void quit() {
+        write("PART #" + chaine);
+        on_join = false;
     }
 
     public void write(String msg) {
@@ -80,7 +85,7 @@ public class MainController implements Initializable {
             //connect irc
             connect();
 
-            Timeline timeline_connection = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+            Timeline timeline_connection = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
                 try {
                     if (bufferedReader.ready()) {
                         String line = bufferedReader.readLine();
@@ -91,7 +96,11 @@ public class MainController implements Initializable {
                         }
 
                         System.out.println(line);
-                        if (on_start && !line.contains("JOIN") && !line.contains("PING") && !line.contains("NICK") && !line.contains("PASS")) {
+                        if (on_start && !line.contains("JOIN")
+                                && !line.contains("PING") && !line.contains("NICK")
+                                && !line.contains("PASS")
+                                && !line.contains("/NAMES")
+                        ) {
                             //init
                             Label pseudo = new Label(), msg = new Label(), date = new Label();
                             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -103,26 +112,31 @@ public class MainController implements Initializable {
                             vBox.setPrefWidth(370);
                             vBox.setMaxWidth(370);
 
-                            vBox.setAlignment(Pos.CENTER);
+                            vBox.setAlignment(Pos.CENTER_LEFT);
 
                             hBox.setPrefWidth(360);
                             hBox.setMaxWidth(360);
                             hBox.setMaxHeight(5);
 
                             vBox.setPadding(new Insets(3, 5, 3, 5));
-                            hBox.setSpacing(20);
+                            hBox.setSpacing(5);
                             pseudo.getStyleClass().add("msg_pseudo");
                             msg.getStyleClass().add("msg_msg");
                             date.getStyleClass().add("msg_msg");
                             vBox.getStyleClass().add("msg_vbox");
 
-                            pseudo.maxWidth(hBox.getWidth() - 15);
-                            msg.maxWidth(vBox.getWidth());
-                            date.setMaxWidth(10);
+                            pseudo.maxWidth(200);
+
+                            msg.maxWidth(320);
+                            msg.prefWidth(320);
+                            msg.maxHeight(60);
+                            msg.prefHeight(30);
+
+                            date.setMaxWidth(60);
+                            date.setMinWidth(30);
 
                             pseudo.setWrapText(true);
                             msg.setWrapText(true);
-                            date.setWrapText(true);
 
 
                             //split msg
@@ -135,7 +149,7 @@ public class MainController implements Initializable {
                             date.setText(LocalDateTime.now().format(dateTimeFormatter));
 
                             //add
-                            hBox.getChildren().addAll(pseudo, date);
+                            hBox.getChildren().addAll(date, pseudo);
                             vBox.getChildren().addAll(hBox, msg);
                             tchat_msg_Vbox.getChildren().add(vBox);
 
@@ -150,7 +164,7 @@ public class MainController implements Initializable {
             }));
             timeline_connection.setCycleCount(Animation.INDEFINITE);
             timeline_connection.play();
-            tchat_msg_Vbox.heightProperty().addListener((ChangeListener<? super Number>) (observable, oldvalue, newValue) -> tchat_ScrollPane.setVvalue((Double) newValue));
+            //tchat_msg_Vbox.heightProperty().addListener((ChangeListener<? super Number>) (observable, oldvalue, newValue) -> tchat_ScrollPane.setVvalue(1));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -160,12 +174,18 @@ public class MainController implements Initializable {
         try {
             if (this.socket != null) {
                 this.socket.close();
+                System.out.println("socket close");
             }
             if (this.bufferedReader != null) {
                 this.bufferedReader.close();
+                System.out.println("bufferReader close");
             }
             if (this.output != null) {
                 this.output.close();
+                System.out.println("PrintWriter close");
+            }
+            if (on_join) {
+                quit();
             }
             System.exit(0);
         } catch (IOException e) {

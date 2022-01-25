@@ -1,5 +1,6 @@
 .background {
     -fx-background-color: #041026;
+    -fx-background-radius: 25;
 }
 
 .msg_vbox {
@@ -18,6 +19,12 @@
     -fx-text-fill: white;
     -fx-font-size: 11;
     -fx-font-weight: bold;
+}
+
+.tchat_scrollbar {
+    -fx-background-color: #160A40;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.6), 10, 0, 0, 0);
+
 }
 
 
