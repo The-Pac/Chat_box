@@ -16,8 +16,8 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("chat-view-FXML.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 300, 200);
-        stage.initStyle(StageStyle.UTILITY);
+        Scene scene = new Scene(fxmlLoader.load(), 400, 200);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Chat Twitch");
         stage.setAlwaysOnTop(true);
         stage.setScene(scene);
