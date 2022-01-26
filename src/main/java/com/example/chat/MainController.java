@@ -11,6 +11,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -30,19 +32,20 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
     public String oAuth = "oauth:oig27sm2xk21wk9yg7nv84jk428ugl",
-            chaine = "lestream", nickname = "pacreported";
+            chaine = "pacreported", nickname = "pacreported";
     public int port = 6697;
     public Socket socket;
     public PrintWriter output;
     public BufferedReader bufferedReader;
-    public boolean on_start = false, on_join = false;
+    public boolean on_start = false, on_join = false, on_channel_show = false;
 
     @FXML
     public HBox statut_Hbox;
     public VBox tchat_msg_Vbox;
     public Label statut_Label;
     public ScrollPane tchat_ScrollPane;
-    public Button close_button;
+    public Button close_button, channel_change_Button;
+    public TextField channel_change_TextField;
 
     public void connect() {
         write("PASS " + oAuth);
@@ -69,7 +72,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //fxml components prep
-
+        channel_change_TextField.setText(chaine);
 
         try {
             //create connexion
@@ -198,6 +201,23 @@ public class MainController implements Initializable {
             System.exit(0);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    public void channel_change_Button_Action(ActionEvent actionEvent) {
+        if (!on_channel_show) {
+
+        } else {
+
+        }
+    }
+
+    public void channel_change_TextField_Action(InputMethodEvent inputMethodEvent) {
+        if (!channel_change_TextField.getText().isEmpty() && channel_change_TextField.getText().isBlank()) {
+            channel_change_Button.setVisible(true);
+        } else {
+            channel_change_Button.setVisible(false);
         }
 
     }
