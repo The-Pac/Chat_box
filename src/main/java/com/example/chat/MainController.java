@@ -15,6 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,7 +31,7 @@ public class MainController implements Initializable {
 
     public String oAuth = "oauth:oig27sm2xk21wk9yg7nv84jk428ugl",
             chaine = "lestream", nickname = "pacreported";
-    public int port = 6667;
+    public int port = 6697;
     public Socket socket;
     public PrintWriter output;
     public BufferedReader bufferedReader;
@@ -71,9 +73,14 @@ public class MainController implements Initializable {
 
         try {
             //create connexion
-            socket = new Socket("irc.chat.twitch.tv", port);
 
-            socket.setSoTimeout(1000);
+            SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+            SSLSocket socket = (SSLSocket) factory.createSocket("irc.chat.twitch.tv", port);
+
+
+            socket.startHandshake();
+
+            socket.setSoTimeout(2000);
             socket.setKeepAlive(true);
 
             output = new PrintWriter(socket.getOutputStream(), true);
@@ -91,6 +98,10 @@ public class MainController implements Initializable {
                         //join channel
                         if (line.contains("You are in a maze")) {
                             join();
+                        }
+
+                        if (line.contains("PING")) {
+                            write("PONG :tmi.twitch.tv");
                         }
 
                         if (on_start && !line.contains("JOIN")
