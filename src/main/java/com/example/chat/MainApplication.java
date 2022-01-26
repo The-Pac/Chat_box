@@ -11,6 +11,8 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class MainApplication extends Application {
+    public double xOffset, yOffset;
+
     public static void main(String[] args) {
         launch();
     }
@@ -19,8 +21,14 @@ public class MainApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("chat-view-FXML.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 230);
-        stage.setX(10);
-        stage.setY(0);
+        scene.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+        scene.setOnMouseDragged(event -> {
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        });
         scene.setFill(Color.TRANSPARENT);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setTitle("Chat Twitch");
